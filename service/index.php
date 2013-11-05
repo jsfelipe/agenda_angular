@@ -7,7 +7,7 @@
  *
  * If you are using Composer, you can skip this step.
  */
-require 'Slim/Slim.php';
+require '/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
@@ -22,13 +22,13 @@ $app->delete('/wines/:id',   'deleteWine');
 $app->run();
  
 function getWines() {
-    $sql = "select * FROM tb_contatos ORDER BY nome";
+    $sql = "SELECT * FROM tb_contatos";
     try {
         $db = getConnection();
         $stmt = $db->query($sql);
         $wines = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        echo '{"wine": ' . json_encode($wines) . '}';
+        echo json_encode($wines);
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -50,7 +50,7 @@ function getWine($id) {
 }
  
 function addWine() {
-    $request = Slim::getInstance()->request();
+    $request = \Slim\Slim::getInstance()->request();
     $wine = json_decode($request->getBody());
     $sql = "INSERT INTO tb_contatos (nome, email) VALUES (:nome, :email)";
     try {
@@ -69,7 +69,7 @@ function addWine() {
 }
  
 function updateWine($id) {
-    $request = Slim::getInstance()->request();
+    $request = \Slim\Slim::getInstance()->request();
     $body = $request->getBody();
     $wine = json_decode($body);
     $sql = "UPDATE tb_contatos SET nome=:nome, email=:email WHERE id=:id";

@@ -173,7 +173,9 @@ padding: 5px 15px;
                       
 
                       <div class="list-group">
-                          <a href="#" class="list-group-item active">{{agenda.nome}}</a>
+                          <a href="#" ng-class="{active : $first}" class="list-group-item" ng-repeat="cont in contatos">
+                            {{cont.nome}}
+                          </a>
                       </div>
 
                     </div>
@@ -229,15 +231,15 @@ padding: 5px 15px;
       </div>
       <div class="modal-body">
 
-        <form>
-          <input type="hidden" value="0" ng-model="contato.id_contato">
+        <form name="formCadastro">
+          <input type="hidden" value="0" ng-model="contato.id">
           <div class="form-group">
             <label >Nome:</label>
             <input type="text" class="form-control" placeholder="Nome"  ng-model="contato.nome">
           </div>
           <div class="form-group">
             <label>E-mail</label>
-            <input type="email" class="form-control"  placeholder="E-mail"  ng-model="contato.email">
+            <input type="text" class="form-control"  placeholder="E-mail"  ng-model="contato.email">
           </div>
           <div class="form-group">
             <label >Celular:</label>
