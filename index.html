@@ -156,7 +156,7 @@ padding: 5px 15px;
                     <!-- input buscar -->
                         <div class="">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" id="edit_busca">
+                                  <input type="text" class="form-control" ng-model="search.nome">
                                   <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                       
@@ -173,7 +173,7 @@ padding: 5px 15px;
                       
 
                       <div class="list-group">
-                          <a href="#" ng-class="{active : $first}" class="list-group-item" ng-repeat="cont in contatos">
+                          <a href="#" class="list-group-item" ng-repeat="cont in contatos | filter:search:strict" ng-click="visualizar($index,cont)" ng-class="{'active': $index == ativo}">
                             {{cont.nome}}
                           </a>
                       </div>
@@ -186,17 +186,17 @@ padding: 5px 15px;
             </div>
 
 
-            <div class="tab-content col-sm-5 tab-conteudo"  style="display:none">
+            <div class="tab-content col-sm-5 tab-conteudo">
               <a href="#">
                   <img src="http://demo.okendoken.com/img/2.jpg" class="img-thumbnail" width="80" >
                   <div id="editar_foto" data-toggle="modal" data-target="#modalFoto">editar</div>
               </a>
               <h4 id="nome">
-                
+                {{contato_view.nome}}
               </h4>
-              <a id="link_editar" data-toggle="modal" data-target="#myModal"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+             
 
-              <label><strong>E-mail:</strong><label id="email"></label></label>
+              <label><strong>E-mail:</strong><label>{{contato_view.email}}</label></label>
               <label><strong>Casa:</strong> <label id="casa"></label></label>
               <label><strong>Celular:</strong> <label id="celular"></label></label>
 
@@ -206,12 +206,12 @@ padding: 5px 15px;
 
               <a id="linkgoogle" class="tip" data-toggle="tooltip" title="Ver no Google Maps" style="margin-bottom:10px"  role="button"><span class="glyphicon glyphicon-map-marker"></span></a>
                </label>
+              
+               <a href="#" data-toggle="modal" data-target="#modalCadastro"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar" ng-click="editar(contato_view)"><span class="glyphicon glyphicon-edit"></span></a>
 
               <a id="deletar_contato" class="tip" data-toggle="tooltip" title="Deletar" style="margin-bottom:10px"  role="button"><span class="glyphicon glyphicon-trash"></span></a>
                
               <input type="hidden" id="idcontato">
-
-
 
         </div>
 

@@ -7,7 +7,7 @@
  *
  * If you are using Composer, you can skip this step.
  */
-require '/Slim/Slim.php';
+require 'Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
@@ -72,7 +72,7 @@ function updateWine($id) {
     $request = \Slim\Slim::getInstance()->request();
     $body = $request->getBody();
     $wine = json_decode($body);
-    $sql = "UPDATE tb_contatos SET nome=:nome, email=:email WHERE id=:id";
+    $sql = "UPDATE tb_contatos SET nome=:nome, email=:email WHERE id_contato=:id";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
