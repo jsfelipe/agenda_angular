@@ -146,8 +146,8 @@ padding: 5px 15px;
                 <div id="msg_alert"></div>
               </div>
 
-              <ul class="nav nav-tabs nav-stacked" id="lista_letras">
-                 
+              <ul class="nav nav-tabs nav-stacked"  >
+                  <li ng-repeat="letra in letras"><a href="#" data-toggle="tab" ng-click="passaLetra(letra)">{{letra}}</a></li>
               </ul>
 
                 <div class="tab-content">
@@ -156,7 +156,9 @@ padding: 5px 15px;
                     <!-- input buscar -->
                         <div class="">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" ng-model="search.nome">
+
+                                  <input type="text" class="form-control" ng-model="buscar.nome">
+
                                   <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                       
@@ -173,7 +175,9 @@ padding: 5px 15px;
                       
 
                       <div class="list-group">
+
                           <a href="#" class="list-group-item" ng-repeat="cont in contatos | filter:search:strict" ng-click="visualizar($index,cont)" ng-class="{'active': $index == ativo}">
+
                             {{cont.nome}}
                           </a>
                       </div>
@@ -197,6 +201,7 @@ padding: 5px 15px;
              
 
               <label><strong>E-mail:</strong><label>{{contato_view.email}}</label></label>
+
               <label><strong>Casa:</strong> <label id="casa"></label></label>
               <label><strong>Celular:</strong> <label id="celular"></label></label>
 
@@ -208,6 +213,8 @@ padding: 5px 15px;
                </label>
               
                <a href="#" data-toggle="modal" data-target="#modalCadastro"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar" ng-click="editar(contato_view)"><span class="glyphicon glyphicon-edit"></span></a>
+
+              <a href="#" data-toggle="modal" data-target="#modalCadastro"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar" ng-click="editar()"><span class="glyphicon glyphicon-edit"></span></a>
 
               <a id="deletar_contato" class="tip" data-toggle="tooltip" title="Deletar" style="margin-bottom:10px"  role="button"><span class="glyphicon glyphicon-trash"></span></a>
                
@@ -227,7 +234,7 @@ padding: 5px 15px;
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Contato</h4>
+        <h4 class="modal-title" id="myModalLabel">Cadastro</h4>
       </div>
       <div class="modal-body">
 
