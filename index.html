@@ -121,6 +121,23 @@ padding: 5px 15px;
     height: 18px;
     background: green;
 }
+
+input.ng-invalid {
+  border: 1px solid red;
+}
+input.ng-valid {
+  border: 1px solid green;
+}
+.error small.error {
+display: block;
+padding: 0.375em 0.25em;
+margin-top: -1.3125em;
+margin-bottom: 1em;
+font-size: 0.75em;
+font-weight: bold;
+background: #c60f13;
+color: white;
+}
   </style>  
 </head>
 <body>
@@ -147,7 +164,7 @@ padding: 5px 15px;
               </div>
 
               <ul class="nav nav-tabs nav-stacked"  >
-                  <li ng-repeat="letra in letras"><a href="#" data-toggle="tab" ng-click="passaLetra(letra)">{{letra}}</a></li>
+                  <li ng-repeat="letra in letras" ng-class="{active: $index == 0}"><a href="#tab{{$index + 1}}"  data-toggle="tab"  ng-click="passaLetra(letra)">{{letra}}</a></li>
               </ul>
 
                 <div class="tab-content">
@@ -170,14 +187,11 @@ padding: 5px 15px;
                         </div>
                       <!-- fim input buscar -->
                   
-                    <div class="tab-pane fade in active" id="A">
-
-                      
+                    <div class="tab-pane fade in active">
 
                       <div class="list-group">
 
-                          <a href="#" class="list-group-item" ng-repeat="cont in contatos | filter:search:strict" ng-click="visualizar($index,cont)" ng-class="{'active': $index == ativo}">
-
+                          <a href="#" class="list-group-item" ng-repeat="cont in contatos | filter:buscar" ng-click="visualizar($index,cont)" ng-class="{'active': $index == ativo}">
                             {{cont.nome}}
                           </a>
                       </div>
@@ -214,8 +228,6 @@ padding: 5px 15px;
               
                <a href="#" data-toggle="modal" data-target="#modalCadastro"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar" ng-click="editar(contato_view)"><span class="glyphicon glyphicon-edit"></span></a>
 
-              <a href="#" data-toggle="modal" data-target="#modalCadastro"  class="btn-md tip" role="button" data-toggle="tooltip" title="Editar" ng-click="editar()"><span class="glyphicon glyphicon-edit"></span></a>
-
               <a id="deletar_contato" class="tip" data-toggle="tooltip" title="Deletar" style="margin-bottom:10px"  role="button"><span class="glyphicon glyphicon-trash"></span></a>
                
               <input type="hidden" id="idcontato">
@@ -236,17 +248,33 @@ padding: 5px 15px;
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Cadastro</h4>
       </div>
+    <form name="signup_form" novalidate ng-submit="salvar()">
       <div class="modal-body">
 
-        <form name="formCadastro">
+        
           <input type="hidden" value="0" ng-model="contato.id">
           <div class="form-group">
             <label >Nome:</label>
-            <input type="text" class="form-control" placeholder="Nome"  ng-model="contato.nome">
+            <input type="text"  name="nome"  class="form-control" placeholder="Nome"  ng-model="contato.nome">
+            <div class="error" 
+        ng-show="signup_form.nome.$dirty && signup_form.nome.$invalid">
+    <small class="error" 
+        ng-show="signup_form.nome.$error.required">
+        Your nome is required.
+    </small>
+    <small class="error" 
+            ng-show="signup_form.nome.$error.pattern">
+            Your nome is required to be at least 3 characters
+    </small>
+    <small class="error" 
+            ng-show="signup_form.nome.$error.maxlength">
+            Your name cannot be longer than 20 characters
+    </small>
+  </div>
           </div>
           <div class="form-group">
             <label>E-mail</label>
-            <input type="text" class="form-control"  placeholder="E-mail"  ng-model="contato.email">
+            <input type="text" name="email" class="form-control"  placeholder="E-mail"  ng-model="contato.email">
           </div>
           <div class="form-group">
             <label >Celular:</label>
@@ -265,14 +293,16 @@ padding: 5px 15px;
             
           </div>
           
-        </form>
+        
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" ng-click="salvar()">Salvar</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="signup_form.$invalid">Salvar</button>
       </div>
-    </div><!-- /.modal-content -->
+    </form>
+    </div>
+    <!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 

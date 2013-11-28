@@ -14,6 +14,7 @@ $app = new \Slim\Slim();
  
 $app->get('/wines', 'getWines');
 $app->get('/wines/:id',  'getWine');
+$app->get('/letra/:letra',  'getLetra');
 $app->get('/wines/search/:query', 'findByName');
 $app->post('/wines', 'addWine');
 $app->put('/wines/:id', 'updateWine');
@@ -44,6 +45,26 @@ function getWine($id) {
         $wine = $stmt->fetchObject();
         $db = null;
         echo json_encode($wine);
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
+function getLetra($letra) {
+    $sql = "SELECT *, LCASE(nome) as nome FROM tb_contatos WHERE nome LIKE '".$letra."%'";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("letra", $letra);
+        $stmt->execute();
+        $wine = $stmt->fetchAll();
+        foreach ($wine as $contato) {
+            $contato['nome'] = ucwords($contato['nome']);
+            $contatos[] = $contato;
+        }
+        //var_dump($wine);exit;
+        $db = null;
+        echo json_encode($contatos);
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -122,7 +143,7 @@ function getConnection() {
     $dbuser="root";
     $dbpass="";
     $dbname="agenda";
-    $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+    $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
 }
